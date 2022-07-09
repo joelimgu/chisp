@@ -3,7 +3,8 @@
 {%  block body %}
 <form method="post" style="display: flex; flex-direction: column">
     {% csrf_token %}
-    {{ form }}
+    {{ form.as_p }}
+{#    {{ form }}#}
     <input type="submit" value="accept">
 </form>
 <a href="{% url "index" %}">Home</a>

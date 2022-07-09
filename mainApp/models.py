@@ -29,7 +29,7 @@ class ElectricalComponent(models.Model):
     def get_absolute_url(self):
         return reverse('component.view', kwargs={'pk':self.pk})
 
-    reference = models.CharField(max_length=255, null=False)
+    reference = models.CharField(max_length=255, null=False, unique=True)
     custom_description = models.CharField(max_length=1023)
     manufacturer_description = models.CharField(max_length=1023)
     recommended_stock = models.IntegerField(blank=True, null=False)
