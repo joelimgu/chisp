@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {{ electricalcomponent }}
-</body>
-</html>
+
+{% extends "mainApp/index.html" %}
+{%  block body %}
+    <table>
+        <th>Ref</th>
+        <th>Custom Description</th>
+        <th>Recommended Stock</th>
+        <th>Current Stock</th>
+        <th>Is in use internally</th>
+        <th>Last update</th>
+        <tr>
+            <td>{{ electricalcomponent.reference }}</td>
+            <td>{{ electricalcomponent.custom_description }}</td>
+            <td>{{ electricalcomponent.recommended_stock }}</td>
+            <td>{{ electricalcomponent.current_stock }}</td>
+            <td>{{ electricalcomponent.is_in_use_internally }}</td>
+            <td>{{ electricalcomponent.last_update }}</td>
+        </tr>
+    </table>
+    <a href="{% url "home" %}">Home</a>
+{% endblock %}

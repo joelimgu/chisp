@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name='index'),
     path('component/<pk>', views.ViewComponent.as_view(), name='component.view'),
-    path('insert/', views.CreateComponent.as_view(),),
-    path('', views.index)
+    path('insert/', views.CreateComponent.as_view(), name="component.insert"),
+    path('list/', views.ComponentListView.as_view(), name="component.list"),
+    path('', views.index, name="home")
 ]
