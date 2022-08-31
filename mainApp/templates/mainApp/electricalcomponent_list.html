@@ -9,7 +9,7 @@
     <th>Is in use internally</th>
     <th>Last update</th>
     {% for component in page_obj %}
-        <tr>
+        <tr onclick="document.location.href = '{{ component.get_absolute_url }}'">
             <td>{{ component.reference }}</td>
             <td>{{ component.custom_description }}</td>
             <td>{{ component.recommended_stock }}</td>
@@ -17,6 +17,11 @@
             <td>{{ component.is_in_use_internally }}</td>
             <td>{{ component.last_update }}</td>
         </tr>
+    {% empty %}
+        <tr>
+        <td colspan="6">😶</td>
+        </tr>
+
     {% endfor %}
 </table>
 

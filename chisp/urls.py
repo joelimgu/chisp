@@ -24,5 +24,7 @@ urlpatterns = [
     path('component/<pk>', views.ViewComponent.as_view(), name='component.view'),
     path('insert/', views.CreateComponent.as_view(), name="component.insert"),
     path('list/', views.ComponentListView.as_view(), name="component.list"),
+    path('search/', views.SearchComponent.as_view(), name="component.search_results"),
+    path('edit/<pk>', views.UpdateComponent.as_view(), name="component.edit_component"),
     path('', views.index, name="home")
 ]

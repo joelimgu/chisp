@@ -1,0 +1,24 @@
+
+<div class="numberInput">
+    <button onclick="decrement()">-</button>
+    <input  type="{{ widget.type }}"
+            name="{{ widget.name }}"
+            {% if widget.value != None %}
+            value="{{ widget.value|stringformat:'s' }}"
+            {% endif %}
+            {% include "django/forms/widgets/attrs.html" %}
+    >
+    <button onclick="increment()">+</button>
+    <script >
+        const input = document.getElementsByName("{{ widget.name }}")[0]
+
+        function increment() {
+            input.value = Number(input.value) + 1;
+        }
+
+        function decrement() {
+            input.value = Number(input.value) - 1;
+        }
+    </script>
+</div>
+

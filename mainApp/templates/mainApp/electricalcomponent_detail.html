@@ -1,6 +1,7 @@
 
 {% extends "mainApp/index.html" %}
 {%  block body %}
+    <button onclick="document.location.href = '{{ electricalcomponent.get_edit_url }}'">Edit</button>
     <table>
         <th>Ref</th>
         <th>Custom Description</th>

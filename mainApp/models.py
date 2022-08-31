@@ -27,7 +27,10 @@ class ElectricalComponent(models.Model):
         return self.reference
 
     def get_absolute_url(self):
-        return reverse('component.view', kwargs={'pk':self.pk})
+        return reverse('component.view', kwargs={'pk': self.pk})
+
+    def get_edit_url(self):
+        return reverse('component.edit_component', kwargs={'pk': self.pk})
 
     reference = models.CharField(max_length=255, null=False, unique=True)
     custom_description = models.CharField(max_length=1023)
