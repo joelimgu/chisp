@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'mainApp.apps.MainappConfig',
     'django_sass',
     'bootstrap5',
+    'colorfield'
 ]
 
 MIDDLEWARE = [

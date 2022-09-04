@@ -27,5 +27,6 @@ urlpatterns = [
     path('delete/<pk>', views.DeleteComponent.as_view(), name="component.delete_component"),
     path('search/', views.SearchComponent.as_view(), name="component.search_results"),
     path('edit/<pk>', views.UpdateComponent.as_view(), name="component.edit_component"),
+    path('createtag', views.CreateTag.as_view(), name="component.create_tags"),
     path('', views.index, name="home")
 ]

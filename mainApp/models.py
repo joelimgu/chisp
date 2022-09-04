@@ -1,3 +1,4 @@
+from colorfield.fields import ColorField
 from django.db import models
 
 # Create your models here.
@@ -10,7 +11,7 @@ class Currency(models.Model):
         return self.symbol
 
     symbol = models.CharField(max_length=7)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
 
 def get_default_currency():
@@ -61,9 +62,12 @@ class ElectricalComponent(models.Model):
     currency = models.ForeignKey('Currency', on_delete=models.CASCADE, null=True, default=get_default_currency)
     created_at = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField("mainApp.Tag", related_name="electrical_components")
 
 
-# class Choice(models.Model):
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     choice_text = models.CharField(max_length=200)
-#     votes = models.IntegerField(default=0)
+class Tag(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+    color = ColorField(default="#FFFFFF")
+
+    def __str__(self):
+        return self.name
