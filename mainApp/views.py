@@ -4,7 +4,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 
 from mainApp.form import CustomNumberInput
 from mainApp.models import ElectricalComponent
@@ -22,6 +23,7 @@ class UpdateComponent(UpdateView):
     model = ElectricalComponent
     fields = (
         'reference',
+        'location',
         'custom_description',
         'manufacturer_description',
         'recommended_stock',
@@ -48,7 +50,7 @@ class SearchComponent(ListView):
     #     # search = self.request.GET.get('search_term')
     #     print(self.kwargs['search_term'])
 
-    paginate_by = 50
+    paginate_by = 30 # also change in css
     model = ElectricalComponent
 
     fields = (
@@ -69,6 +71,7 @@ class ComponentListView(ListView):
 
     fields = (
         'reference',
+        'location',
         'custom_description',
         'manufacturer_description',
         'recommended_stock',
@@ -78,11 +81,13 @@ class ComponentListView(ListView):
         'currency',
     )
 
+
 class CreateComponentForm(ModelForm):
     class Meta:
         model = ElectricalComponent
         fields = (
             'reference',
+            'location',
             'custom_description',
             'manufacturer_description',
             'recommended_stock',
@@ -96,7 +101,12 @@ class CreateComponentForm(ModelForm):
         }
 
 
+class DeleteComponent(DeleteView):
+    model = ElectricalComponent
+    template_name = "mainApp/electricalcomponent_delete.html"
+    success_url = reverse_lazy("home")
+
+
 class CreateComponent(CreateView):
     model = ElectricalComponent
     form_class = CreateComponentForm
-

@@ -1,29 +1,25 @@
 
 {% extends "mainApp/index.html" %}
+{% load static %}
 {%  block body %}
-<table>
-    <th>Ref</th>
-    <th>Custom Description</th>
-    <th>Recommended Stock</th>
-    <th>Current Stock</th>
-    <th>Is in use internally</th>
-    <th>Last update</th>
+<div class="component-list">
+    <div class="list-top">
+        <h3>Ref</h3>
+        <h3>Location</h3>
+        <h3>Tags</h3>
+    </div>
     {% for component in page_obj %}
-        <tr onclick="document.location.href = '{{ component.get_absolute_url }}'">
-            <td>{{ component.reference }}</td>
-            <td>{{ component.custom_description }}</td>
-            <td>{{ component.recommended_stock }}</td>
-            <td>{{ component.current_stock }}</td>
-            <td>{{ component.is_in_use_internally }}</td>
-            <td>{{ component.last_update }}</td>
-        </tr>
-    {% empty %}
-        <tr>
-        <td colspan="6">😶</td>
-        </tr>
-
+        <div class="component-reduced-view">
+            <div class="data-background" onclick="document.location.href = '{{ component.get_absolute_url }}'">
+                <img src="{% static 'mainApp/assets/placeholder.png' %}" alt="component image">
+            </div>
+            <div class="data-background" onclick="document.location.href = '{{ component.get_absolute_url }}'"><p>{{ component.reference }}</p></div>
+            <div class="data-background"><p>{{ component.location }}</p></div>
+            <div class="data-background"></div>
+        </div>
     {% endfor %}
-</table>
+</div>
+
 
 <div class="pagination">
     <span class="step-links">

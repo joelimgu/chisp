@@ -1,0 +1,12 @@
+
+{% extends "mainApp/index.html" %}
+{%  block body %}
+    <form method="post" style="display: flex; flex-direction: column">
+        {% csrf_token %}
+        <h3>T'es sûr que tu veux supprimer {{ object }}</h3>
+        {{ form.as_div }}
+        <input type="submit" value="accept">
+    </form>
+    <a href="{% url "index" %}">Home</a>
+{%  endblock %}
+

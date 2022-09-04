@@ -2,6 +2,7 @@
 {% extends "mainApp/index.html" %}
 {%  block body %}
     <button onclick="document.location.href = '{{ electricalcomponent.get_edit_url }}'">Edit</button>
+    <button onclick="document.location.href = '{{ electricalcomponent.get_delete_url }}'">Delete</button>
     <table>
         <th>Ref</th>
         <th>Custom Description</th>
@@ -10,7 +11,7 @@
         <th>Is in use internally</th>
         <th>Last update</th>
         <tr>
-            <td>{{ electricalcomponent.reference }}</td>
+            <td><a href="https://octopart.com/search?q={{ electricalcomponent.reference }}">{{ electricalcomponent.reference }}</a></td>
             <td>{{ electricalcomponent.custom_description }}</td>
             <td>{{ electricalcomponent.recommended_stock }}</td>
             <td>{{ electricalcomponent.current_stock }}</td>

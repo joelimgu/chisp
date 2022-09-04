@@ -4,9 +4,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
     <link href="{% static 'mainApp/css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'mainApp/css/electricalcomponent_list.css' %}" rel="stylesheet">
     <title>{% block title %} {%  endblock %}</title>
-</head>
+ </head>
     <body>
         <div class="header">
             <div class="logo">
@@ -24,8 +27,24 @@
             {% block body %}
                 <form action="{% url 'component.search_results' %}" method="get">
                 <div class="search">
-                        <input name="q" type="text" placeholder="Enter a word to search">
-                        <input type="submit" value="Search">
+                    <div class="tom-select">
+                        <input id="searchComponent" name="q" type="text" placeholder="Enter a word to search">
+                    </div>
+                    <input type="submit" value="Search">
+{#                    <script>#}
+{#                        new TomSelect('#searchComponent',{#}
+{#                            maxItems: null,#}
+{#                            valueField: 'id',#}
+{#                            labelField: 'title',#}
+{#                            searchField: 'title',#}
+{#                            options: [#}
+{#                                {id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},#}
+{#                                {id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},#}
+{#                                {id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}#}
+{#                            ],#}
+{#                            create: false#}
+{#                        });#}
+                    </script>
                 </div>
                 </form>
             {%  endblock %}
