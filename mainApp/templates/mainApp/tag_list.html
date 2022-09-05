@@ -1,0 +1,25 @@
+{% extends "mainApp/index.html" %}
+{% load static %}
+{%  block body %}
+<link href="{% static 'mainApp/css/tag_list.css' %}" rel="stylesheet">
+    <h1>Tag List</h1>
+<div class="tag-list">
+    {% for tag in page_obj %}
+        <div class="tag"
+             style="background-color: {{ tag.color }}"
+             onclick="document.location.href = '{{ tag.get_edit_url }}'"
+        >
+            <p>{{ tag }}</p>
+        </div>
+
+{#        <div class="tag">#}
+{#            <div class="data-background" onclick="document.location.href = '{{ component.get_absolute_url }}'">#}
+{#                <img src="{% static 'mainApp/assets/placeholder.png' %}" alt="component image">#}
+{#            </div>#}
+{#            <div class="data-background" onclick="document.location.href = '{{ component.get_absolute_url }}'"><p>{{ component.reference }}</p></div>#}
+{#            <div class="data-background"><p>{{ component.location }}</p></div>#}
+{#            <div class="data-background"></div>#}
+{#        </div>#}
+    {% endfor %}
+</div>
+{%  endblock %}

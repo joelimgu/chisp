@@ -18,22 +18,6 @@ def get_default_currency():
     return Currency.objects.get(name="euro")
 
 
-#
-# class TagColor(models.Model):
-#     def __str__(self):
-#         return self.color
-#
-#     color = models.CharField(max_length=6, null=False, unique=True)
-#
-#
-# class Tag(models.Model):
-#     def __str__(self):
-#         pass
-#
-#     text = models.CharField(max_length=15, null=False, unique=True)
-#     color = models.ForeignKey(TagColor, on_delete=models.CASCADE, default=get_default_currency)
-
-
 class ElectricalComponent(models.Model):
     # ORDER BY 'last_update'
     class Meta:
@@ -71,3 +55,10 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    @staticmethod
+    def get_absolute_url():
+        return reverse('component.list_tags')
+
+    def get_edit_url(self):
+        return reverse('component.edit_tag', kwargs={'pk': self.pk})

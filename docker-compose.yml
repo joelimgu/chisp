@@ -2,20 +2,18 @@
 version: '3'
 services:
   django:
-    image: 8af079d3f61d
+    image: e22263635c0d
     depends_on:
       - db
     ports:
-      - "8000:8000"
+      - 8000:8000
     volumes:
       - static-files:/var/www/django/static/
-      - .:/app
-      - ./www:/www
     environment:
       - DJANGO_SECRET_KEY=r%zxa9wl^=5_j*6=a$$6onbtnu8(n&5j=f^@+ro4btgmi#=r)kd
       - DJANGO_DEBUG=False
 #      URL='clubrobot.joelimgu.me'
-      - URL=0.0.0.0:9000
+      - URL=0.0.0.0:8000
       # Database options
       - DB_NAME=django
       - DB_USER=root
@@ -33,9 +31,10 @@ services:
       - 8080:80
     environment:
       - DJANGO_HOST=django
+      - URL=http://django:8000
     volumes:
       - ./default.conf.template:/etc/nginx/templates/default.conf.template
-      - ./www:/www
+      - static-files:/www/static
     networks:
       - backend
 

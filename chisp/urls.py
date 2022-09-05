@@ -28,5 +28,7 @@ urlpatterns = [
     path('search/', views.SearchComponent.as_view(), name="component.search_results"),
     path('edit/<pk>', views.UpdateComponent.as_view(), name="component.edit_component"),
     path('createtag', views.CreateTag.as_view(), name="component.create_tags"),
+    path('tag/edit/<pk>', views.UpdateTag.as_view(), name="component.edit_tag"),
+    path('tag/list/', views.ListTag.as_view(), name="component.list_tags"),
     path('', views.index, name="home")
 ]

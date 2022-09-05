@@ -26,9 +26,9 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-
+CSRF_TRUSTED_ORIGINS = ['https://clubrobot.joelimgu.me']
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DJANGO_DEBUG']
+DEBUG = os.environ['DJANGO_DEBUG'] == "True"
 
 ALLOWED_HOSTS = [os.environ['URL'], 'localhost', '0.0.0.0', '127.0.0.1']
 
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'chisp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': os.environ['DB_ENGINE'] if os.environ['DB_ENGINE'] else 'django.db.backends.mysql',
         'NAME': os.environ['DB_NAME'],
         'USER': os.environ['DB_USER'],
         'PASSWORD': os.environ['DB_PASSWORD'],

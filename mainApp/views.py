@@ -85,7 +85,6 @@ class ComponentListView(ListView):
 
 
 class CreateComponentForm(ModelForm):
-    ModelMultipleChoiceField
     class Meta:
         model = ElectricalComponent
         fields = (
@@ -102,7 +101,7 @@ class CreateComponentForm(ModelForm):
         )
         widgets = {
             "current_stock": CustomNumberInput(),
-            "tags": TomSelectMultiple(create=True)
+            "tags": TomSelectMultiple()
         }
 
 
@@ -120,5 +119,18 @@ class CreateComponent(CreateView):
 class CreateTag(CreateView):
     model = Tag
     fields = ("name", "color")
+
     def get_success_url(self):
         return reverse("index")
+
+
+class UpdateTag(UpdateView):
+    model = Tag
+    fields = ("name", "color")
+
+
+class ListTag(ListView):
+    template_name = 'mainApp/tag_list.html'
+    paginate_by = 500
+    model = Tag
+    fields = ("name", "color")
