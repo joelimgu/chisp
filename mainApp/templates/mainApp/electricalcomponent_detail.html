@@ -1,23 +1,43 @@
-
 {% extends "mainApp/index.html" %}
+{% load static %}
 {%  block body %}
+    <link href="{% static 'mainApp/css/electricalcomponent_detail.css' %}" rel="stylesheet">
+    <link href="{% static 'mainApp/css/tag_list.css' %}" rel="stylesheet">
     <button onclick="document.location.href = '{{ electricalcomponent.get_edit_url }}'">Edit</button>
     <button onclick="document.location.href = '{{ electricalcomponent.get_delete_url }}'">Delete</button>
-    <table>
-        <th>Ref</th>
-        <th>Custom Description</th>
-        <th>Recommended Stock</th>
-        <th>Current Stock</th>
-        <th>Is in use internally</th>
-        <th>Last update</th>
-        <tr>
-            <td><a href="https://octopart.com/search?q={{ electricalcomponent.reference }}">{{ electricalcomponent.reference }}</a></td>
-            <td>{{ electricalcomponent.custom_description }}</td>
-            <td>{{ electricalcomponent.recommended_stock }}</td>
-            <td>{{ electricalcomponent.current_stock }}</td>
-            <td>{{ electricalcomponent.is_in_use_internally }}</td>
-            <td>{{ electricalcomponent.last_update }}</td>
-        </tr>
-    </table>
+    <div class="component-detail">
+        <h1>{{ electricalcomponent.reference }}</h1>
+        <div class="field">
+            <p>Ref: </p>
+            <p>{{ electricalcomponent.reference }}</p>
+        </div>
+        <div class="field">
+            <p>Custom description: </p>
+            <p>{{ electricalcomponent.custom_description }}</p>
+        </div>
+        <div class="field">
+            <p>Recommended Stock: </p>
+            <p>{{ electricalcomponent.recommended_stock }}</p>
+        </div>
+        <div class="field">
+            <p>Current stock: </p>
+            <p>{{ electricalcomponent.current_stock }}</p>
+        </div>
+        <div class="field">
+            <p>Is in use internally: </p>
+            <p>{{ electricalcomponent.is_in_use_internally }}</p>
+        </div>
+        <div class="field">
+            <p>Last update: </p>
+            <p>{{ electricalcomponent.last_update }}</p>
+        </div>
+        <div class="tag-list">
+            {% for tag in  electricalcomponent.tags.all %}
+                <div class="tag" style="background-color: {{ tag.color }}" onclick="document.location.href = '{{ tag.get_edit_url }}'">
+                    {{ tag }}
+                </div>
+            {%  endfor %}
+        </div>
+    </div>
     <a href="{% url "home" %}">Home</a>
 {% endblock %}
