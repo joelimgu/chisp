@@ -15,7 +15,13 @@
             </div>
             <div class="data-background" onclick="document.location.href = '{{ component.get_absolute_url }}'"><p>{{ component.reference }}</p></div>
             <div class="data-background"><p>{{ component.location }}</p></div>
-            <div class="data-background"></div>
+            <div class="data-background">
+                {% for tag in component.tags.all  %}
+                    <div class="tag" style="background-color: {{ tag.color }}">
+                        {{ tag }}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% endfor %}
 </div>
