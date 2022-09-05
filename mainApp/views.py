@@ -33,7 +33,12 @@ class UpdateComponent(UpdateView):
         'is_in_use_internally',
         'estimated_price',
         'currency',
+        'tags'
     )
+    widgets = {
+        "current_stock": CustomNumberInput(),
+        "tags": TomSelectMultiple()
+    }
 
 
 class SearchComponent(ListView):
