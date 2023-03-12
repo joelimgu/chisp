@@ -5,8 +5,6 @@ services:
     image: e22263635c0d
     depends_on:
       - db
-    ports:
-      - 8000:8000
     volumes:
       - static-files:/var/www/django/static/
     environment:

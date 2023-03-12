@@ -5,6 +5,7 @@
     <link href="{% static 'mainApp/css/tag_list.css' %}" rel="stylesheet">
     <button onclick="document.location.href = '{{ electricalcomponent.get_edit_url }}'">Edit</button>
     <button onclick="document.location.href = '{{ electricalcomponent.get_delete_url }}'">Delete</button>
+
     <div class="component-detail">
         <h1>{{ electricalcomponent.reference }}</h1>
         <div class="field">
@@ -12,8 +13,16 @@
             <p>{{ electricalcomponent.reference }}</p>
         </div>
         <div class="field">
+            <p>Location: </p>
+            <p>{{ electricalcomponent.location }}</p>
+        </div>
+        <div class="field">
             <p>Custom description: </p>
             <p>{{ electricalcomponent.custom_description }}</p>
+        </div>
+        <div class="field">
+            <p>manufacturer description: </p>
+            <p>{{ electricalcomponent.manufacturer_description }}</p>
         </div>
         <div class="field">
             <p>Recommended Stock: </p>
@@ -28,8 +37,22 @@
             <p>{{ electricalcomponent.is_in_use_internally }}</p>
         </div>
         <div class="field">
+            <p>Estimated price: </p>
+            <p>{{ electricalcomponent.estimated_price }} {{ electricalcomponent.currency }}</p>
+        </div>
+        <div class="field">
             <p>Last update: </p>
             <p>{{ electricalcomponent.last_update }}</p>
+        </div>
+        {% if electricalcomponent.store_link %}
+            <div class="field">
+                <p>Buy: </p>
+                <p>{{ electricalcomponent.store_link }}</p>
+            </div>
+        {%  endif %}
+        <div class="field">
+            <p>Total value: </p>
+            <p>{{ electricalcomponent.total }}{{ electricalcomponent.currency }}</p>
         </div>
         <div class="tag-list">
             {% for tag in  electricalcomponent.tags.all %}

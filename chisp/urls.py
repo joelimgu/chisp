@@ -30,5 +30,6 @@ urlpatterns = [
     path('createtag', views.CreateTag.as_view(), name="component.create_tags"),
     path('tag/edit/<pk>', views.UpdateTag.as_view(), name="component.edit_tag"),
     path('tag/list/', views.ListTag.as_view(), name="component.list_tags"),
+    path('stats/', views.Statistics.as_view(), name="component.statistics"),
     path('', views.index, name="home")
 ]

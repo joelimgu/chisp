@@ -36,10 +36,10 @@ class ElectricalComponent(models.Model):
         return reverse('component.edit_component', kwargs={'pk': self.pk})
 
     reference = models.CharField(max_length=255, null=False, unique=True)
-    location = models.CharField(max_length=8, null=True)
+    location = models.CharField(max_length=15, null=True)
     custom_description = models.CharField(max_length=1023)
     manufacturer_description = models.CharField(max_length=1023)
-    recommended_stock = models.IntegerField(blank=True, null=False)
+    recommended_stock = models.IntegerField(blank=True, null=False, default=0)
     current_stock = models.IntegerField(default=0)
     is_in_use_internally = models.BooleanField(default=False)
     estimated_price = models.FloatField(null=True, default=None)
@@ -47,6 +47,7 @@ class ElectricalComponent(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField("mainApp.Tag", related_name="electrical_components")
+    store_link = models.CharField(max_length=1024, null=True, blank=True)
 
 
 class Tag(models.Model):

@@ -21,8 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
+# Default key, must not be used in a production environment
+DEFAULT_SECRET_KEY = "r%zxa9wl^=5_j*6=a$6onbtnu8(n&5j=f^@+ro4btgmi#=r)kd"
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = DEFAULT_SECRET_KEY if os.getenv('DJANGO_DEBUG', default=False) == 'True' else os.environ['DJANGO_SECRET_KEY']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
@@ -82,7 +84,7 @@ WSGI_APPLICATION = 'chisp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ['DB_ENGINE'] if os.environ['DB_ENGINE'] else 'django.db.backends.mysql',
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.mysql'),
         'NAME': os.environ['DB_NAME'],
         'USER': os.environ['DB_USER'],
         'PASSWORD': os.environ['DB_PASSWORD'],

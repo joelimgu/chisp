@@ -4,6 +4,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
     <link href="{% static 'mainApp/css/index.css' %}" rel="stylesheet">
@@ -24,6 +26,7 @@
             <a href="{% url "component.list" %}">View components</a>
             <a href="{% url "component.create_tags" %}">Add tag</a>
             <a href="{% url "component.list_tags" %}">List tags</a>
+            <a href="{% url "component.statistics" %}">Statistics</a>
         </div>
         <div>
             {% block body %}
@@ -32,20 +35,7 @@
                     <div class="tom-select">
                         <input id="searchComponent" name="q" type="text" placeholder="Enter a word to search">
                     </div>
-                    <input type="submit" value="Search">
-{#                    <script>#}
-{#                        new TomSelect('#searchComponent',{#}
-{#                            maxItems: null,#}
-{#                            valueField: 'id',#}
-{#                            labelField: 'title',#}
-{#                            searchField: 'title',#}
-{#                            options: [#}
-{#                                {id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},#}
-{#                                {id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},#}
-{#                                {id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}#}
-{#                            ],#}
-{#                            create: false#}
-{#                        });#}
+                    <input type="submit" value="Search" class="btn btn-info">
                     </script>
                 </div>
                 </form>
