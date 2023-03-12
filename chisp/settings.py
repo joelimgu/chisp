@@ -10,29 +10,64 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv()
+# *DJANGO_SECRET_KEY[_FILE]
+# DJANGO_CSRF_TRUSTED_ORIGINS
+# DJANGO_DEBUG
+# DJANGO_ALLOWED_HOSTS
+# *DJANGO_DB_ENGINE
+# *DJANGO_DB_NAME
+# DJANGO_DB_USER
+# DJANGO_DB_PASSWORD[_FILE]
+# DJANGO_DB_HOST
+# DJANGO_DB_PORT
 
+# BUILDING internal var to allow running sass compiler
+if "BUILDING" in os.environ.keys():
+    BUILDING = os.environ.get("BUILDING").lower() == "true"
+else:
+    BUILDING = False
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# Default key, must not be used in a production environment
-DEFAULT_SECRET_KEY = "r%zxa9wl^=5_j*6=a$6onbtnu8(n&5j=f^@+ro4btgmi#=r)kd"
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = DEFAULT_SECRET_KEY if os.getenv('DJANGO_DEBUG', default=False) == 'True' else os.environ['DJANGO_SECRET_KEY']
+if "DJANGO_SECRET_KEY_FILE" in os.environ.keys():
+    p = Path(os.environ.get('DJANGO_SECRET_KEY_FILE'))
+    if not p.is_file():
+        if not BUILDING:
+            raise ValueError("DJANGO_SECRET_KEY_FILE must contain a path to an existing file")
+    with open(p) as f:
+        SECRET_KEY = f.read().strip()
+elif "DJANGO_SECRET_KEY" in os.environ.keys():
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+else:
+    if not BUILDING:
+        raise ValueError("You must specify DJANGO_SECRET_KEY or DJANGO_SECRET_KEY_FILE")
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-CSRF_TRUSTED_ORIGINS = ['https://clubrobot.joelimgu.me']
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DJANGO_DEBUG'] == "True"
 
-ALLOWED_HOSTS = [os.environ['URL'], 'localhost', '0.0.0.0', '127.0.0.1']
+if "DJANGO_CSRF_TRUSTED_ORIGINS" in os.environ.keys():
+    CSRF_TRUSTED_ORIGINS = list(os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS').split())
+else:
+    print("DJANGO_CSRF_TRUSTED_ORIGINS not defined, your forms are not likely to work", file=sys.stderr)
+    CSRF_TRUSTED_ORIGINS = []
+
+if "DJANGO_DEBUG" in os.environ.keys():
+    DEBUG = os.environ.get('DJANGO_DEBUG').lower() == "true"
+else:
+    DEBUG = False
+
+if "DJANGO_ALLOWED_HOSTS" in os.environ.keys():
+    ALLOWED_HOSTS = list(os.environ.get('DJANGO_ALLOWED_HOSTS').split())
+else:
+    if not BUILDING:
+        raise ValueError("You must specify DJANGO_ALLOWED_HOSTS")
 
 # Application definition
 INSTALLED_APPS = [
@@ -50,6 +85,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,17 +117,53 @@ WSGI_APPLICATION = 'chisp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+if "DJANGO_DB_ENGINE" not in os.environ.keys():
+    if not BUILDING:
+        raise ValueError("You must specify DJANGO_DB_ENGINE, possible values are django.db.backends.[mysql|sqlite3|postgresql|oracle]")
+if "DJANGO_DB_NAME" not in os.environ.keys():
+    if not BUILDING:
+        raise ValueError("You must specify DJANGO_DB_NAME")
+if os.environ.get('DJANGO_DB_ENGINE') != "django.db.backends.sqlite3":
+    if "DJANGO_DB_USER" not in os.environ.keys():
+        if not BUILDING:
+            raise ValueError("When not using backend django.db.backends.sqlite3, you need to specify DJANGO_DB_USER")
+    if "DJANGO_DB_PASSWORD_FILE" in os.environ.keys():
+        if not Path(os.environ.get('DJANGO_DB_PASSWORD_FILE')).is_file():
+            if not BUILDING:
+                raise ValueError("The file specified in DJANGO_DB_PASSWORD_FILE must exist")
+    elif "DJANGO_DB_PASSWORD" not in os.environ.keys():
+        if not BUILDING:
+            raise ValueError("When not using backend django.db.backends.sqlite3, you must specify DJANGO_DB_PASSWORD_FILE or DJANGO_DB_PASSWORD")
+    if "DJANGO_DB_HOST" not in os.environ.keys():
+        if not BUILDING:
+            raise ValueError("When not using backend django.db.backends.sqlite3, you need to specify DJANGO_DB_HOST")
+    if "DJANGO_DB_PORT" not in os.environ.keys():
+        if not BUILDING:
+            raise ValueError("When not using backend django.db.backends.sqlite3, you need to specify DJANGO_DB_PORT")
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.mysql'),
-        'NAME': os.environ['DB_NAME'],
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'HOST': os.environ['DB_HOST'],
-        'PORT': os.environ['DB_PORT'],
+if os.environ.get('DJANGO_DB_ENGINE') == "django.db.backends.sqlite3":
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DJANGO_DB_ENGINE'),
+            'NAME': os.environ.get('DJANGO_DB_NAME')
+        }
     }
-}
+else:
+    if os.environ.get("DJANGO_DB_PASSWORD_FILE"):
+        with open(os.environ.get("DJANGO_DB_PASSWORD_FILE")) as f:
+            db_password = f.read()
+    else:
+        db_password = os.environ.get("DJANGO_DB_PASSWORD")
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DJANGO_DB_ENGINE'),
+            'NAME': os.environ.get('DJANGO_DB_NAME'),
+            'USER': os.environ.get('DJANGO_DB_USER'),
+            'PASSWORD': db_password,
+            'HOST': os.environ.get('DJANGO_DB_HOST'),
+            'PORT': os.environ.get('DJANGO_DB_PORT'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
